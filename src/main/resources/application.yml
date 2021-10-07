@@ -1,1 +1,30 @@
+spring:
+  security:
+    user:
+      name: jung
+      password: 1234
+  profiles:
+    active: test
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/api
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: jun
+    password: tjgusskavys8*
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+    properties:
+      hibernate:
+        ddl-auto: create
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+    show-sql: true
+#  file:
+#    path: ./logs/
+#  level:
+
+#    root: DEBUG
 
