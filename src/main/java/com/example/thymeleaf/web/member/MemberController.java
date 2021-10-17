@@ -23,7 +23,6 @@ public class MemberController {
         return "members/addMemberForm";
     }
 
-
     @PostMapping("/add")
     public String save(@Valid @ModelAttribute Member member, BindingResult bindingResult){
         if(bindingResult.hasErrors()){

@@ -32,7 +32,7 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/homeLogin_v2")
+    @GetMapping("/")
     public String homeLogin_v2(@CookieValue(name="memberId", required=false) Long memberId, Model model){
         if(memberId == null){
             return "home";
@@ -62,7 +62,7 @@ public class HomeController {
     /**
      *  스프링이 제공하는 기능 -> 세션을 생성하지는 않는다.
      * */
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLogin_v4(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
                                        Member member, Model model){
         if(member == null){

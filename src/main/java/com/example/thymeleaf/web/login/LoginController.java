@@ -31,7 +31,7 @@ public class LoginController {
         return "login/loginForm";
     }
 
-    @PostMapping("/login_v1")
+    @PostMapping("/login")
     public String login_v1(@Valid @ModelAttribute LoginForm form, BindingResult result,
                            HttpServletResponse response){
         if(result.hasErrors()){
@@ -69,12 +69,12 @@ public class LoginController {
     }
 
     @PostMapping("/logout_v2")
-    public String logout(HttpServletRequest request, String name){
+    public String logout(HttpServletRequest request){
         manager.expireCookie(request);
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String login_v3(@Valid @ModelAttribute LoginForm form, BindingResult result,
                            HttpServletRequest request){
         if(result.hasErrors()){
@@ -82,7 +82,7 @@ public class LoginController {
         }
         Member loginMember = service.login(form.getLoginId(), form.getPassword());
         if(loginMember == null){
-            result.reject("loginFail", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            result.reject("loginFail", "잘못된 아이디 또는 비밀번호입니다. 올바른 정보를 입력해주세요.");
             return "login/loginForm";
         }
         HttpSession session = request.getSession(true);
