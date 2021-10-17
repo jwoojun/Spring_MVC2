@@ -13,6 +13,25 @@
     <h1>Object</h1>
     <li>${userA.name}= <span th:text="${userA.name}"></span></li>
     <li>${userA['name']} = <span th:text="${userA.name}"></span></li>
+    <li>${userA.getName()} = <span th:text="${userA.getName()}"></span> </li>
 </ul>
+<ul>
+    <h1>List</h1>
+    <li>${lst[0].name}= <span th:text="${lst.get(0).name}"></span></li>
+    <li>${lst['name']} = <span th:text="${lst[0]['name']}"></span></li>
+    <li>${lst[0].getName()} = <span th:text="${lst[0].getName()}"></span> </li>
+</ul>
+
+<ul>
+    <h1>Map</h1>
+    <li>${map['userA'].name}= <span th:text="${map.get('userA').name}"></span></li>
+    <li>${map['userA']['name']} = <span th:text="${map['userA']['name']}"></span></li>
+    <li>${map[0]['userA'].getName()} = <span th:text="${map['userA'].getName()}"></span> </li>
+</ul>
+
+<div th:with="first=${lst[0]}">
+    <p>이 사람의 이름은 <span th:text="${first.name}"></span></p>
+</div>
+
 </body>
 </html>

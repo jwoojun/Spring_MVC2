@@ -1,11 +1,15 @@
 package com.example.thymeleaf.controller;
 
 import lombok.Data;
+import org.dom4j.rule.Mode;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +18,30 @@ import java.util.Map;
 @Controller
 @RequestMapping("/basic")
 public class BasicController {
-    @GetMapping("text-basic")
-    public String textBasic(Model model){
-        model.addAttribute("data", "Hello Spring");
-        return "basic/text-basic";
+
+    @GetMapping("/attribute")
+    public String attribute() {
+        return "basic/attribute";
+    }
+    @GetMapping("/operation")
+    public String operation(Model model){
+        model.addAttribute("nullData", null);
+        model.addAttribute("data", "Spring");
+        return "basic/operation";
     }
 
+    @GetMapping("link")
+    public String link(Model model){
+        model.addAttribute("paramA", "dataA");
+        model.addAttribute("paramB", "dataB");
+        return "basic/link";
+    }
+
+    @GetMapping("literal")
+    public String literal(Model model){
+        model.addAttribute("data", "Spring");
+        return "basic/literal";
+    }
     /**
      *  기본적으로 escape 처리를 해줘야 한다.
      * */
@@ -44,7 +66,6 @@ public class BasicController {
         model.addAttribute("userA", userA);
         model.addAttribute("lst", lst);
         model.addAttribute("map", map);
-
         return "basic/variables";
     }
 
@@ -57,5 +78,24 @@ public class BasicController {
             this.name = name;
             this.age = age;
         }
+    }
+
+    @GetMapping("/basic-objects")
+    public String basicObjects(HttpSession session){
+        session.setAttribute("data", "Hello Session");
+        return "basic/basic-objects";
+    }
+
+    @Component("helloBean")
+    static class HelloBean{
+        public String hello(String data){
+            return "Hell" + data;
+        }
+    }
+
+    @GetMapping("/date")
+    public String date(Model model){
+        model.addAttribute("time", LocalDateTime.now());
+        return "basic/date";
     }
 }
