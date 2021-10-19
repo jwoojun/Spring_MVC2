@@ -1,23 +1,30 @@
 package com.example.backend.config;
 
 import com.example.backend.web.argumentresolver.LoginArgumentResolver;
+import com.example.backend.web.exception.MyHandlerExceptionResolver;
+import com.example.backend.web.exception.UserHandlerExceptionResolver;
 import com.example.backend.web.filter.LogFilter;
 import com.example.backend.web.filter.LoginCheckFilter;
-import com.example.backend.web.interceptor.LoginCheckInterceptor;
+import com.example.backend.web.interceptor.LoginIntercepter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
 import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.add(new MyHandlerExceptionResolver());
+        resolvers.add(new UserHandlerExceptionResolver());
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new LoginArgumentResolver());
@@ -25,18 +32,18 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginIntercepter())
-//                .order(1)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/css/**", "/*.ico", "/error");
-        registry.addInterceptor(new LoginCheckInterceptor())
-                .order(2)
+        registry.addInterceptor(new LoginIntercepter())
+                .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/members/add", "/login", "/logout",
-                       "/css/**", "/*.ico");
+                .excludePathPatterns("/css/**", "/*.ico", "/error");
+//        registry.addInterceptor(new LoginCheckInterceptor())
+//                .order(2)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/", "/members/add", "/login", "/logout",
+//                       "/css/**", "/*.ico");
     }
 
-//    @Bean
+    //    @Bean
     public FilterRegistrationBean<Filter> logFilter(){
         FilterRegistrationBean<Filter> filterFilterRegistration = new FilterRegistrationBean<>();
         filterFilterRegistration.setFilter(new LogFilter());
@@ -46,7 +53,7 @@ public class WebConfig implements WebMvcConfigurer {
         return filterFilterRegistration;
     }
 
-//    @Bean
+    //    @Bean
     public FilterRegistrationBean<Filter> loginCheckFilter (){
         FilterRegistrationBean<Filter> filterFilterRegistration = new FilterRegistrationBean<>();
         filterFilterRegistration.setFilter(new LoginCheckFilter());
